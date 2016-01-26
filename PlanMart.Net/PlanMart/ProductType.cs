@@ -2,6 +2,8 @@
 {
     public enum ProductType
     {
-        Alcohol, Clothing, Food, Service
+        Alcohol,
+        Clothing,
+        Food
     }
 }
