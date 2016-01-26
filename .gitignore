@@ -1,3 +1,7 @@
 *.suo
 PlanMart.Net/PlanMart/obj/
 *.user
+PlanMart.Net/packages/
+PlanMart.Net/PlanMart.Tests/obj/
+PlanMart.Net/PlanMart.Tests/bin/
+PlanMart.Net/PlanMart/bin/

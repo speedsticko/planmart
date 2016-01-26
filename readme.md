@@ -17,6 +17,8 @@ You are expected to perform two tasks in this method:
 * Return true or false depending on whether the order is valid
 * Add zero or more line items to the order representing details such as taxes, shipping costs, and reward points.
 
+**Please spend no more than two hours on this**.  It is no problem if you don't have enough time to implement every nuance.
+
 ## Specification
 
 Here are the rules the implementation must enforce:
@@ -26,12 +28,12 @@ Here are the rules the implementation must enforce:
     * Food items shipped to CA, NY
     * Clothing items shipped to CT
 * Orders to nonprofits are exempt from all tax and shipping
-* Orders get 1 reward point per  $2 spent
+* Orders get 1 reward point per $2 spent
 * Orders get double rewards points when:
     * Using PlanMart rewards credit card
     * Three of these criteria met:
         * Multiple different products in the same order
-        * Orders over $200 shipped to US territories other than AZ
+        * Orders over $200 shipped to US regions other than AZ
         * Orders over $100 shipped to AZ
         * Orders on:
             * Any of the [3 recurring Black Fridays](https://en.wikipedia.org/wiki/List_of_Black_Fridays#Repetitive_events)
@@ -39,11 +41,12 @@ Here are the rules the implementation must enforce:
             * Veteran’s Day
 * Alcohol may not be shipped to VA, NC, SC, TN, AK, KY, AL
 * Alcohol may only be shipped to customers age 21 or over in the US
-* Shipping is $10 for items under 20 pounds in the continental US
-* Shipping is $20 for items over 20 pounds in the continental US
-* Shipping for items to the non-continental US is $35
+* Shipping is $10 for orders under 20 pounds in the continental US
+* Shipping is $20 for orders over 20 pounds in the continental US
+* Shipping for orders to the non-continental US is $35
 * Food may not be shipped to HI
 * An `Order` should not be empty (the customer should be ordering *something*!)
+* Sales tax should be rounded using the [round half up strategy](https://en.wikipedia.org/wiki/Rounding#Round_half_up)
 
 ## Data Model
 
@@ -58,6 +61,54 @@ and price.
 * **LineItem** - Added to an `Order` by the processor to indicate taxes, shipping costs, and awarded reward points.
 * **LineItemType** - An enum that specifies whether the line item represents taxes, shipping costs, etc.
 * **ProductOrder** - An `Order` contains one of these that describes what product is being ordered and how many..
+
+## Example
+
+    Order
+		ShippingRegion: AZ
+		PaymentMethod: Visa
+		Placed: 2015-11-27
+		Items: 
+			ProductOrder
+				Product
+					Type: Alcohol
+					Price: $20
+					Weight: 2 lb
+				Quantity: 3
+			ProductOrder
+				Product
+					Type: Food
+					Price: $25
+					Weight: 3 lb
+				Quantity: 3
+		Customer
+			BirthDate: 1988-03-04
+			IsNonProfit: false
+		
+The processor should return true:
+* While alcohol is involved, the customer is over the age of 21
+* The order is not being shipped to any of VA, NC, SC, TN, AK, KY, or AL
+
+The processor should add the following line items to the order:
+
+    Order
+		LineItems
+			LineItem
+				Type: Tax
+				Amount: $10.80
+			LineItem
+				Type: Shipping
+				Amount: $10.00
+			LineItem
+				Type: RewardsPoints
+				Amount: 134
+				
+* A tax of $10.80 is 8% of the order total of $135
+* The total weight of the order is less than 20 lb so shipping is $10
+* $135 was spent, which represent 74 $2 chunks, giving us 74 reward points as a base.  But the amount is doubled to 134 because:
+  * The order was shipped to Arizona and the order total was greater than $100
+  * More than one each of two different products were ordered
+  * The order was placed on the day after Thanksgiving (a Black Friday)   
 
 ## Unit Tests
 
