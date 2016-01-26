@@ -43,4 +43,24 @@ Here are the rules the implementation must enforce:
 * Shipping is $20 for items over 20 pounds in the continental US
 * Shipping for items to the non-continental US is $35
 * Food may not be shipped to HI
+* An `Order` should not be empty (the customer should be ordering *something*!)
 
+## Data Model
+
+We provide the following types:
+* **Order** - The parameter to the processor and the top level object with which you interact.  Contains various details such
+as the products ordered, the shipping address, line items, etc.
+* **Customer** - Details about the customer who placed the order, including the date of birth, and whether they are a non-profit.
+* **Product** - Describes a single product (such as a book, a TV, etc.) with details that describe the product such as its weight
+and price.
+* **ProductType** - An enum that specifies what sort of product it is (alcohol, clothing, etc.)
+* **PaymentMethod** - An enum that specifies what payment method the customer used (Visa, PlanMart Rewards Card, etc.)
+* **LineItem** - Added to an `Order` by the processor to indicate taxes, shipping costs, and awarded reward points.
+* **LineItemType** - An enum that specifies whether the line item represents taxes, shipping costs, etc.
+* **ProductOrder** - An `Order` contains one of these that describes what product is being ordered and how many..
+
+## Unit Tests
+
+In addition to implementing the processor interface, you should also write unit tests that verify that your processor is 
+producing the results expected of the specification.  Each unit test should instantiate and populate an `Order` and call
+your implementation and validate the results.

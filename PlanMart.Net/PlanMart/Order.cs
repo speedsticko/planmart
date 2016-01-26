@@ -11,6 +11,11 @@ namespace PlanMart
         public Customer Customer { get; }
 
         /// <summary>
+        /// The two-letter region where the order should be shipped to.
+        /// </summary>
+        public string ShippingRegion { get; }
+
+        /// <summary>
         /// An enum describing the method of payment for the order.
         /// </summary>
         public PaymentMethod PaymentMethod { get; }
@@ -30,9 +35,10 @@ namespace PlanMart
         /// </summary>
         public List<LineItem> LineItems { get; } = new List<LineItem>();
 
-        public Order(Customer customer, PaymentMethod paymentMethod, DateTime placed)
+        public Order(Customer customer, string shippingRegion, PaymentMethod paymentMethod, DateTime placed)
         {
             Customer = customer;
+            ShippingRegion = shippingRegion;
             PaymentMethod = paymentMethod;
             Placed = placed;
         }
