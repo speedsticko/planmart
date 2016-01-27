@@ -46,7 +46,6 @@
     <Compile Include="LineItemType.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="PaymentMethod.cs" />
-    <Compile Include="PlanMartOrderProcessor.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="ProductOrder.cs" />
     <Compile Include="ProductType.cs" />

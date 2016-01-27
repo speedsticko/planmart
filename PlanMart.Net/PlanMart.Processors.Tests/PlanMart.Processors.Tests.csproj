@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{019F446E-9EAB-4CE4-9ED7-E242CDEC7680}</ProjectGuid>
+    <ProjectGuid>{14DB34CE-00DD-472F-994B-4F636CCD802B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PlanMart.Tests</RootNamespace>
-    <AssemblyName>PlanMart.Tests</AssemblyName>
+    <RootNamespace>PlanMart.Processors.Tests</RootNamespace>
+    <AssemblyName>PlanMart.Processors.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,12 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlanMartOrderProcessorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PlanMart.Processors\PlanMart.Processors.csproj">
+      <Project>{493275A9-53B2-4589-9747-71D06F561CCD}</Project>
+      <Name>PlanMart.Processors</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PlanMart\PlanMart.csproj">
       <Project>{18139AA4-27A7-4BA3-9676-B372EFB38734}</Project>
       <Name>PlanMart</Name>

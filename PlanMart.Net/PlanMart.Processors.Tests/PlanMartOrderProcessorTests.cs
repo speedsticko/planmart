@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 
-namespace PlanMart.Tests
+namespace PlanMart.Processors.Tests
 {
     [TestFixture]
     public class PlanMartOrderProcessorTests

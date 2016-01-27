@@ -13,11 +13,22 @@ an `Order` and are expected to create an implementation of the interface `IOrder
 
 	boolean processOrder(Order order);
 	
+## Context
+Imagine you are at the standard stage of an online ordering process where you click "checkout" and are taken to a confirmation 
+screen that summarizes the products in your cart, shipping costs, taxes, etc.  This page would typically have a button, "Buy Now", 
+which would execute the order.  This method represents the work needed to create this confirmation page.   
+	
 You are expected to perform two tasks in this method:
 * Return true or false depending on whether the order is valid
 * Add zero or more line items to the order representing details such as taxes, shipping costs, and reward points.
 
-**Please spend no more than two hours on this**.  It is no problem if you don't have enough time to implement every nuance.
+## What We're Looking For
+
+Ideally when you're done you have something that works, and the code is designed in a fashion you'd be proud to show to others. Also,
+when contemplating your design, allow that there may be future implementations of the interface for different companies and that the
+requirements between those implementations may have a lot of similarities. 
+
+Please spend no more than two hours on this.  It is not a problem if you don't have enough time to implement every nuance.
 
 ## Specification
 
@@ -115,3 +126,4 @@ The processor should add the following line items to the order:
 In addition to implementing the processor interface, you should also write unit tests that verify that your processor is 
 producing the results expected of the specification.  Each unit test should instantiate and populate an `Order` and call
 your implementation and validate the results.
+
