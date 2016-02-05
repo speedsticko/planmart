@@ -53,7 +53,7 @@ Here are the rules the implementation must enforce:
 * Alcohol may not be shipped to VA, NC, SC, TN, AK, KY, AL
 * Alcohol may only be shipped to customers age 21 or over in the US
 * Shipping is $10 for orders under 20 pounds in the continental US
-* Shipping is $20 for orders over 20 pounds in the continental US
+* Shipping is $20 for orders 20 pounds or over in the continental US
 * Shipping for orders to the non-continental US is $35
 * Food may not be shipped to HI
 * An `Order` should not be empty (the customer should be ordering *something*!)
