@@ -19,7 +19,7 @@ screen that summarizes the products in your cart, shipping costs, taxes, etc.  T
 which would execute the order.  This method represents the work needed to create this confirmation page.   
 	
 You are expected to perform two tasks in this method:
-* Return true or false depending on whether the order is valid
+* Return `true` or `false` depending on whether the order is valid
 * Add zero or more line items to the order representing details such as taxes, shipping costs, and reward points.
 
 ## What We're Looking For
@@ -28,11 +28,11 @@ Ideally when you're done you have something that works, and the code is designed
 when contemplating your design, allow that there may be future implementations of the interface for different companies and that the
 requirements between those implementations may have a lot of similarities. 
 
-Please spend no more than two hours on this.  It is not a problem if you don't have enough time to implement every nuance.
+Set aside about two hours to work on this.  It is not a problem if you don't have enough time to implement every nuance.
 
 ## Specification
 
-Here are the rules the implementation must enforce:
+Here are the rules the implementation must enforce (feel free to implement any subset of these in the allocated time):
 
 * All items are taxed at 8% unless exempt
 * The following types of items are exempt from tax:
@@ -96,7 +96,7 @@ and price.
 			BirthDate: 1988-03-04
 			IsNonProfit: false
 		
-The processor should return true:
+The processor should return `true`:
 * While alcohol is involved, the customer is over the age of 21
 * The order is not being shipped to any of VA, NC, SC, TN, AK, KY, or AL
 
