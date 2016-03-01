@@ -31,6 +31,8 @@ namespace PlanMart.Processors
                 return true;
             }
 
+            System.Diagnostics.Debug.Assert(order.Items.Count > 0);
+
             decimal order_total = 0;
             ProductType prev_product_type = order.Items[0].Product.Type;
             bool multiple_products = false;
