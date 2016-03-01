@@ -73,7 +73,12 @@ namespace PlanMart.Processors
         {
             DateTime tmp_date = before;
             DayOfWeek dayOfWeek = tmp_date.DayOfWeek;
-            while (dayOfWeek != DayOfWeek.Monday)
+            if (dayOfWeek == day)
+            {
+                tmp_date = tmp_date.AddDays(-1);
+                dayOfWeek = tmp_date.DayOfWeek;
+            }
+            while (dayOfWeek != day)
             {
                 tmp_date = tmp_date.AddDays(-1);
                 dayOfWeek = tmp_date.DayOfWeek;

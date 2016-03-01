@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PlanMart.Processors
 {
@@ -151,15 +152,15 @@ namespace PlanMart.Processors
 
             if (order.ShippingRegion == "AK" || order.ShippingRegion == "HI")
             {
-                shipping_amount = 35;
+                shipping_amount = Constants.ShipFeeNonContinental;
             }
             else if (weight < 20)
             {
-                shipping_amount = 10;
+                shipping_amount = Constants.ShipFeeUnder20Lbs;
             }
             else
             {
-                shipping_amount = 20;
+                shipping_amount = Constants.ShipFee20AndOverLbs;
             }
 
             if(is_nonprofit)
