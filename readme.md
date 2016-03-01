@@ -116,7 +116,7 @@ The processor should add the following line items to the order:
 				
 * A tax of $10.80 is 8% of the order total of $135
 * The total weight of the order is less than 20 lb so shipping is $10
-* $135 was spent, which represent 74 $2 chunks, giving us 74 reward points as a base.  But the amount is doubled to 134 because:
+* $135 was spent, which represent 67 $2 chunks, giving us 67 reward points as a base.  But the amount is doubled to 134 because:
   * The order was shipped to Arizona and the order total was greater than $100
   * More than one each of two different products were ordered
   * The order was placed on the day after Thanksgiving (a Black Friday)   
