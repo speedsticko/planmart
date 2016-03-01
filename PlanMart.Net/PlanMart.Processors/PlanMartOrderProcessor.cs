@@ -162,12 +162,21 @@ namespace PlanMart.Processors
                 shipping_amount = 20;
             }
 
+            if(is_nonprofit)
+            {
+                shipping_amount = 0;
+            }
+
             if (tax_amount > 0)
             {
                 order.LineItems.Add(new LineItem(LineItemType.Tax, tax_amount));
             }
 
-            order.LineItems.Add(new LineItem(LineItemType.Shipping, shipping_amount));
+            if (shipping_amount > 0)
+            {
+                order.LineItems.Add(new LineItem(LineItemType.Shipping, shipping_amount));
+            }
+
             order.LineItems.Add(new LineItem(LineItemType.RewardsPoints, reward_points));
 
             return true;
