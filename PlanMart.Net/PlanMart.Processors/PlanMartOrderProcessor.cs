@@ -7,8 +7,7 @@ namespace PlanMart.Processors
     /// </summary>
     public class PlanMartOrderProcessor : IOrderProcessor
     {
-        public const decimal TaxRate = 0.08M;
-        public const int DrinkingAge = 21;
+
 
         private bool IsProductTaxExempt(Product product, string shipping_region)
         {
@@ -60,7 +59,9 @@ namespace PlanMart.Processors
                 critera_satisfied += 1;
             }
 
-            if (IsMemorialDay(order.Placed) || IsVeteransDay(order.Placed) || IsABlackFriday(order.Placed))
+            if (DateUtil.IsMemorialDay(order.Placed) || 
+                DateUtil.IsVeteransDay(order.Placed) || 
+                DateUtil.IsABlackFriday(order.Placed))
             {
                 critera_satisfied += 1;
             }
@@ -69,83 +70,15 @@ namespace PlanMart.Processors
             
         }
 
-        public static DateTime EasterSunday(int year)
+        private bool CanShipAlcohol(string shippingRegion)
         {
-            int day = 0;
-            int month = 0;
-
-            int g = year % 19;
-            int c = year / 100;
-            int h = (c - (int)(c / 4) - (int)((8 * c + 13) / 25) + 19 * g + 15) % 30;
-            int i = h - (int)(h / 28) * (1 - (int)(h / 28) * (int)(29 / (h + 1)) * (int)((21 - g) / 11));
-
-            day = i - ((year + (int)(year / 4) + i + 2 - c + (int)(c / 4)) % 7) + 28;
-            month = 3;
-
-            if (day > 31)
-            {
-                month++;
-                day -= 31;
-            }
-
-            return new DateTime(year, month, day);
-        }
-
-        private bool IsABlackFriday(DateTime placed)
-        {
-            // Black Friday (partying), the last Friday before Christmas
-            DateTime black_friday1 = LastDayOfWeekBefore(DayOfWeek.Friday, new DateTime(placed.Year, 12, 25));
-            if((placed - black_friday1).Days == 0)
-            {
-                return true;
-            }
-
-            // Black Friday(shopping), the Friday after U.S.Thanksgiving Day.
-            DateTime thanksgiving = new DateTime(placed.Year, 11, 1);
-            while(thanksgiving.DayOfWeek != DayOfWeek.Thursday)
-            {
-                thanksgiving = thanksgiving.AddDays(1);
-            }
-            thanksgiving = thanksgiving.AddDays(21);// jump 3 weeks to 4th Thursday
-
-            DateTime blackfriday2 = thanksgiving.AddDays(1);
-
-            if((placed - blackfriday2).Days == 0)
-            {
-                return true;
-            }
-
-            // Good Friday or Black Friday, a Christian observance of Jesus' crucifixion
-            if ((placed - EasterSunday(placed.Year).AddDays(-2)).Days == 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool IsVeteransDay(DateTime placed)
-        {
-            return placed.Day == 11 && placed.Month == 11;
-        }
-
-        private DateTime LastDayOfWeekBefore(DayOfWeek day, DateTime before)
-        {
-            DateTime tmp_date = before;
-            DayOfWeek dayOfWeek = tmp_date.DayOfWeek;
-            while (dayOfWeek != DayOfWeek.Monday)
-            {
-                tmp_date = tmp_date.AddDays(-1);
-                dayOfWeek = tmp_date.DayOfWeek;
-            }
-            return tmp_date;
-        }
-
-        private bool IsMemorialDay(DateTime placed)
-        {
-            // last monday in May 
-            DateTime memorial_day = LastDayOfWeekBefore(DayOfWeek.Monday, new DateTime(placed.Year, 5, 31));
-            return (memorial_day - placed).Days == 0;
+            return !(shippingRegion == "VA" ||
+                shippingRegion == "NC" ||
+                shippingRegion == "SC" ||
+                shippingRegion == "TN" ||
+                shippingRegion == "AK" ||
+                shippingRegion == "KY" ||
+                shippingRegion == "AL");
         }
 
         public bool ProcessOrder(Order order)
@@ -162,6 +95,12 @@ namespace PlanMart.Processors
                 return false;
             }
 
+            if (order.Customer == null)
+            {
+                return false;
+            }
+
+
             bool is_nonprofit = order.Customer.IsNonProfit;
             decimal tax_amount = 0;
             decimal shipping_amount = 0;
@@ -174,7 +113,7 @@ namespace PlanMart.Processors
                 var item_total_cost = item.Product.Price * item.Quantity;
                 if (!is_nonprofit && !IsProductTaxExempt(item.Product, order.ShippingRegion))
                 {
-                    tax_amount += item_total_cost * TaxRate;
+                    tax_amount += item_total_cost * Constants.TaxRate;
                 }
 
                 // -- reward points
@@ -186,9 +125,9 @@ namespace PlanMart.Processors
                 // -- alcohol restrictions
                 if (item.Product.Type == ProductType.Alcohol)
                 {
-                    int age = GetCustomerAge(order);
+                    int age = DateUtil.GetAgeToday(order.Customer.BirthDate);
 
-                    if (age < DrinkingAge)
+                    if (age < Constants.DrinkingAge)
                     {
                         return false;
                     }
@@ -233,25 +172,6 @@ namespace PlanMart.Processors
 
             return true;
         }
-
-        private static int GetCustomerAge(Order order)
-        {
-            DateTime birth_date = order.Customer.BirthDate;
-            DateTime now = DateTime.Today;
-            int age = now.Year - birth_date.Year;
-            if (now < birth_date.AddYears(age)) age--;
-            return age;
-        }
-
-        private bool CanShipAlcohol(string shippingRegion)
-        {
-            return !(shippingRegion == "VA" ||
-                shippingRegion == "NC" ||
-                shippingRegion == "SC" ||
-                shippingRegion == "TN" ||
-                shippingRegion == "AK" ||
-                shippingRegion == "KY" ||
-                shippingRegion == "AL");
-        }
+        
     }
 }
