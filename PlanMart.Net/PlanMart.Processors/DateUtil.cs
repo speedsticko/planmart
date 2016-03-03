@@ -8,7 +8,8 @@ namespace PlanMart.Processors
 {
     public class DateUtil
     {
-
+        // Attribution: 
+        // http://stackoverflow.com/questions/2510383/how-can-i-calculate-what-date-good-friday-falls-on-given-a-year
         public static DateTime EasterSunday(int year)
         {
             int day = 0;
